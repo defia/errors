@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 // Package errors implements functions to manipulate errors.
-package errors // import "github.com/chai2010/errors"
+package errors
 
 import (
 	"errors"
@@ -50,6 +50,22 @@ func Newf(format string, args ...interface{}) error {
 		XCaller: Caller(2),
 		XError:  fmt.Errorf(format, args...),
 	}
+}
+
+func CallerStr(e error) string {
+	err, ok := e.(Error)
+	if ok {
+		return fmt.Sprint(err.Caller())
+	}
+	return e.Error()
+}
+
+func WrappedStr(e error) string {
+	err, ok := e.(Error)
+	if ok {
+		return fmt.Sprint(err.Wraped())
+	}
+	return e.Error()
 }
 
 func NewWithCode(code int, msg string) error {
